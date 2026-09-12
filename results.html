@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>MHI 289A Survey Results</title>
+<link rel="stylesheet" href="survey.css">
+<style>
+  .wrap { max-width: 900px; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin: 14px 0 6px; font-size: 14px; color: var(--muted); }
+  .toolbar label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 14px 0; }
+  .kpi { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; }
+  .kpi .v { font-size: 26px; font-weight: 700; line-height: 1.1; }
+  .kpi .l { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .qblock { padding: 14px 0 12px; border-top: 1px solid var(--line); }
+  .qblock:first-of-type { border-top: 0; }
+  .qtitle { font-weight: 600; margin: 0 0 6px; }
+  .qmeta { font-size: 12px; color: var(--muted); margin: 0 0 8px; }
+  .bars { display: grid; grid-template-columns: minmax(60px, max-content) 1fr 34px; gap: 4px 10px; align-items: center; font-size: 14px; }
+  .bars .lab { color: var(--ink); text-align: right; font-size: 13px; }
+  .bars .bar { height: 14px; background: var(--line); border-radius: 0 4px 4px 0; position: relative; overflow: hidden; }
+  .bars .bar > span { display: block; height: 100%; background: var(--accent); border-radius: 0 4px 4px 0; }
+  .bars .n { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; }
+  table.lec { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.lec th { text-align: left; font-weight: 600; font-size: 12px; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  table.lec td { padding: 6px 8px; border-bottom: 1px dashed var(--line); vertical-align: middle; }
+  table.lec td.c { width: 120px; }
+  .mini { display: flex; align-items: center; gap: 6px; }
+  .mini .bar { flex: 1; height: 10px; background: var(--line); border-radius: 0 3px 3px 0; overflow: hidden; }
+  .mini .bar > span { display: block; height: 100%; }
+  .mini.helpful .bar > span { background: var(--tag-helpful); }
+  .mini.redundant .bar > span { background: var(--tag-redundant); }
+  .mini.unclear .bar > span { background: var(--tag-unclear); }
+  .mini .n { width: 18px; text-align: right; font-variant-numeric: tabular-nums; font-size: 13px; }
+  .quotes { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .quotes li { background: var(--bg); border-left: 3px solid var(--gold); padding: 8px 12px; border-radius: 0 8px 8px 0; white-space: pre-wrap; }
+  .quotes li .who { display: block; font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .empty { color: var(--muted); font-style: italic; font-size: 14px; }
+  .mrow { display: grid; grid-template-columns: minmax(140px, 1.2fr) 2fr 60px; gap: 8px; align-items: center; padding: 4px 0; font-size: 14px; }
+  .seg { display: flex; height: 14px; border-radius: 4px; overflow: hidden; background: var(--line); gap: 2px; }
+  .seg > span { display: block; height: 100%; background: var(--accent); }
+  .seg > span[data-v="1"] { opacity: .25; } .seg > span[data-v="2"] { opacity: .45; } .seg > span[data-v="3"] { opacity: .65; } .seg > span[data-v="4"] { opacity: .85; } .seg > span[data-v="5"] { opacity: 1; }
+  .seg > span[data-v="na"] { background: var(--muted); opacity: .35; }
+  .seg > span.q { opacity: 1; }
+  .seg > span.q[data-i="0"] { opacity: .3; } .seg > span.q[data-i="1"] { opacity: .55; } .seg > span.q[data-i="2"] { opacity: .8; } .seg > span.q[data-i="3"] { opacity: 1; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--muted); margin: 4px 0 8px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; background: var(--accent); margin-right: 4px; vertical-align: -1px; }
+  .keyform { display: flex; gap: 8px; margin: 10px 0; }
+  .keyform input { flex: 1; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="intro">
+    <p class="eyebrow">MHI 289A · Summer 2026 · Instructor view</p>
+    <h1>Survey results</h1>
+    <div id="gate"></div>
+    <div class="toolbar" id="toolbar" hidden>
+      <label><input type="checkbox" id="inc-test"> Include test rows</label>
+      <button type="button" class="secondary" id="refresh">Refresh</button>
+      <button type="button" class="secondary" id="export">Export CSV</button>
+      <span id="stamp"></span>
+    </div>
+    <div class="kpis" id="kpis"></div>
+  </header>
+  <main id="report"></main>
+  <footer>Responses are anonymous. Track is shown next to a quote only when the respondent chose to give it.</footer>
+</div>
+<script type="module" src="results.js"></script>
+</body>
+</html>
