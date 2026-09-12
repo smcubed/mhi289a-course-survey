@@ -97,3 +97,96 @@ export function answersToText(sections, answers) {
 export function buildPayload(sections, answers, { version, isTest }) {
   return { survey_version: version, is_test: !!isTest, answers: flattenAnswers(sections, answers) };
 }
+
+// ---------------------------------------------------------------------------
+// Results helpers (rows are flat objects as returned by the Apps Script doGet)
+// ---------------------------------------------------------------------------
+
+export const FIXED_COLUMNS = ['submitted_at', 'survey_version', 'is_test'];
+
+export function isTestRow(row) {
+  const v = row.is_test;
+  return v === true || String(v).toUpperCase() === 'TRUE';
+}
+
+function cell(row, key) {
+  const v = row[key];
+  return v == null ? '' : String(v).trim();
+}
+
+function splitMulti(v) {
+  return v ? v.split(';').map(s => s.trim()).filter(Boolean) : [];
+}
+
+export function summarizeScale(rows, q) {
+  const counts = {};
+  for (let v = q.min; v <= q.max; v++) counts[v] = 0;
+  let n = 0, na = 0, sum = 0;
+  for (const r of rows) {
+    const v = cell(r, q.id);
+    if (!v) continue;
+    if (v === 'na') { na++; continue; }
+    const num = Number(v);
+    if (!(num in counts)) continue;
+    counts[num]++; n++; sum += num;
+  }
+  return { n, na, counts, mean: n ? Math.round((sum / n) * 100) / 100 : null };
+}
+
+// single or multi choice. Multi cells look like "a; b; other: text".
+export function summarizeChoice(rows, q) {
+  const counts = new Map(q.options.map(o => [o.value, 0]));
+  const other = [];
+  let n = 0;
+  for (const r of rows) {
+    const parts = splitMulti(cell(r, q.id));
+    if (!parts.length) continue;
+    n++;
+    for (const p of parts) {
+      if (p.startsWith('other:')) other.push(p.slice(6).trim());
+      else if (counts.has(p)) counts.set(p, counts.get(p) + 1);
+    }
+  }
+  const items = q.options.map(o => ({ value: o.value, label: o.label, count: counts.get(o.value) }))
+    .sort((a, b) => b.count - a.count);
+  return { n, items, other };
+}
+
+export function summarizeLectureTags(rows, q) {
+  return q.lectures.map(l => {
+    const out = { lectureId: l.id, title: l.title };
+    for (const t of q.tags) out[t.value] = 0;
+    for (const r of rows) for (const t of splitMulti(cell(r, `lec_${l.id}`))) if (t in out) out[t]++;
+    return out;
+  }).sort((a, b) => (b.helpful - a.helpful) || (a.redundant - b.redundant));
+}
+
+export function summarizeMatrix(rows, q) {
+  return q.rows.map(row => {
+    const counts = {};
+    for (const o of q.options) counts[o.value] = 0;
+    let n = 0;
+    for (const r of rows) {
+      const v = cell(r, `${q.id}_${row.id}`);
+      if (v && v in counts) { counts[v]++; n++; }
+    }
+    const nums = q.options.map(o => Number(o.value)).filter(x => !Number.isNaN(x));
+    const numN = nums.reduce((a, v) => a + counts[v], 0);
+    const mean = numN ? Math.round((nums.reduce((a, v) => a + v * counts[v], 0) / numN) * 100) / 100 : null;
+    return { id: row.id, label: row.label, counts, n, mean };
+  });
+}
+
+export function textResponses(rows, id) {
+  return rows.map(r => ({ text: cell(r, id), track: cell(r, 'track') })).filter(x => x.text);
+}
+
+export function toCsv(rows) {
+  const keys = FIXED_COLUMNS.slice();
+  for (const r of rows) for (const k of Object.keys(r)) if (!keys.includes(k)) keys.push(k);
+  const esc = v => {
+    const s = v == null ? '' : String(v);
+    return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+  return [keys.join(','), ...rows.map(r => keys.map(k => esc(r[k])).join(','))].join('\r\n');
+}
