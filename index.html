@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>MHI 289A Course Feedback</title>
+<link rel="stylesheet" href="survey.css">
+</head>
+<body>
+<div class="topbar"><div class="wrap">
+  <div class="row"><span><strong id="prog-text">0 of 0 sections started</strong></span><span>Answers save in this browser as you go</span></div>
+  <div class="progress"><span id="prog-bar"></span></div>
+</div></div>
+
+<div class="wrap">
+  <header class="intro">
+    <p class="eyebrow">MHI 289A · Summer 2026 · Pilot offering</p>
+    <h1>How did the course go for you?</h1>
+    <p class="lede">This was the first time we ran Introduction to AI for Clinical Students. You were the pilot group, and this survey is how I find the rough edges before the next cohort. Blunt is useful.</p>
+    <ul class="facts">
+      <li>Anonymous: no name, email, or login</li>
+      <li>About 10 minutes</li>
+      <li>Every question is optional</li>
+      <li>Not connected to your grade</li>
+    </ul>
+    <div id="banner"></div>
+  </header>
+
+  <noscript><div class="ribbon err">This survey needs JavaScript to run. Please enable it, or email your thoughts to the instructor.</div></noscript>
+
+  <form id="survey" autocomplete="off" novalidate>
+    <div id="sections"></div>
+    <label class="hp" aria-hidden="true">Leave this empty <input type="text" name="website" tabindex="-1"></label>
+    <div class="actions">
+      <button type="submit" class="primary" id="submit-btn">Submit feedback</button>
+      <button type="button" class="linkish" id="clear-btn">Clear my answers</button>
+    </div>
+  </form>
+
+  <div id="result"></div>
+
+  <footer>Questions about the survey or the course: <a id="mail" href="#">instructor email</a>. Thank you for taking the pilot.</footer>
+</div>
+
+<script type="module" src="survey.js"></script>
+</body>
+</html>

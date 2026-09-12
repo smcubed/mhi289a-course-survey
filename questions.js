@@ -252,6 +252,11 @@ export const SECTIONS = [
       },
       { id: 'zoom_value', type: 'scale', label: 'If you attended any live session, how valuable were they?', ...USEFUL, allowNA: 'Did not attend any' },
       { id: 'zoom_text', type: 'text', label: 'What would make the live sessions worth attending, or worth skipping?', rows: 3 },
+      {
+        id: 'did_weeks_5_6', type: 'single', label: 'Did you do any of Weeks 5 and 6?',
+        options: [{ value: 'yes', label: 'Yes, some or all' }, { value: 'no', label: 'No' }],
+        note: 'Answering yes opens a short section on those weeks below.',
+      },
     ],
   },
   {
@@ -277,11 +282,6 @@ export const SECTIONS = [
     id: 'format',
     title: 'Format and delivery',
     questions: [
-      {
-        id: 'did_weeks_5_6', type: 'single', label: 'Did you do any of Weeks 5 and 6?',
-        options: [{ value: 'yes', label: 'Yes, some or all' }, { value: 'no', label: 'No' }],
-        note: 'Answering yes opens a short section on those weeks above.',
-      },
       {
         id: 'lecture_length', type: 'single', label: 'The video lectures ran about 10 to 20 minutes each. That was:',
         options: [
