@@ -184,13 +184,13 @@ function wireEvents() {
     }
   });
 
-  let timer;
+  const timers = new Map();                       // one debounce timer per field
   form.addEventListener('input', e => {
     const t = e.target;
     if (!(t instanceof HTMLTextAreaElement) && !(t instanceof HTMLInputElement && t.type === 'text')) return;
     if (t.name === 'website') return;
-    clearTimeout(timer);
-    timer = setTimeout(() => setAnswer(t.name, t.value.trim() ? t.value : ''), 250);
+    clearTimeout(timers.get(t.name));
+    timers.set(t.name, setTimeout(() => setAnswer(t.name, t.value.trim() ? t.value : ''), 250));
   });
 
   form.addEventListener('click', e => {
