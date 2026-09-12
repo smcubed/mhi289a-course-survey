@@ -46,6 +46,7 @@ a { color: var(--accent); }
   position: sticky; top: 0; z-index: 5; background: var(--bg);
   border-bottom: 1px solid var(--line); padding: 10px 0 8px;
 }
+.topbar .wrap { padding-bottom: 0; }
 .topbar .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; color: var(--muted); }
 .topbar .row strong { color: var(--ink); font-weight: 600; }
 .progress { height: 4px; background: var(--line); border-radius: 2px; margin-top: 6px; overflow: hidden; }
