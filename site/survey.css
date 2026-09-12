@@ -27,7 +27,7 @@
     --accent: #7fb0e8; --accent-ink: #0b1a2c; --accent-soft: #223247; --gold: #e0b143;
     --ok: #62c48d; --ok-soft: #1a3527; --warn: #f0a75d; --warn-soft: #3c2a16;
     --err: #ef8585; --err-soft: #3d1e1e;
-    --tag-helpful: #62c48d; --tag-redundant: #f0a75d; --tag-unclear: #b89cf0;
+    --tag-helpful: #3fa66f; --tag-redundant: #c47a30; --tag-unclear: #8f6fd6;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
   }
 }
