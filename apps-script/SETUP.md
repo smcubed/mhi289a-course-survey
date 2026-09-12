@@ -46,10 +46,10 @@ This is the password for the results dashboard. Anyone with the key can read res
 ## 5. Put the URL in the site
 
 1. Open `site/config.js` and paste the URL into `APPS_SCRIPT_URL`.
-2. Redeploy the site (from the project folder):
+2. Redeploy the site. The git repo is the `Course survey` folder, so change into it first:
 
    ```bash
-   git add site/config.js && git commit -m "config: connect apps script" && npm run deploy
+   cd ~/Desktop/"UC Davis AI course"/"Course survey" && git add site/config.js && git commit -m "config: connect apps script" && npm run deploy
    ```
 
 ## 6. Test it

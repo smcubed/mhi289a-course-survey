@@ -43,8 +43,8 @@ Fewer than ten students means a single missing response matters; a reminder afte
 | Change the intro text | Edit `site/index.html` |
 | Edit the Apps Script | Paste the new `Code.gs`, then Deploy → Manage deployments → Edit → New version |
 | Run locally | `npm run mock` and `npm run dev`, then open `http://127.0.0.1:8000/?api=http://127.0.0.1:8787&test=1` |
-| Run tests | `npm test` |
-| Redeploy the site | `git add -A && git commit -m "..." && npm run deploy` (pushes `site/` to the `gh-pages` branch) |
+| Run tests | `npm test` (all commands in this table run from the `Course survey` folder) |
+| Redeploy the site | `cd ~/Desktop/"UC Davis AI course"/"Course survey" && git add -A && git commit -m "..." && npm run deploy` (pushes `site/` to the `gh-pages` branch) |
 
 Deploys to GitHub Pages take a minute or two to appear.
 
