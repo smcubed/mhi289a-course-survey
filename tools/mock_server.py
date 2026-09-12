@@ -7,6 +7,7 @@ Rows are kept in tools/mock_data.json next to this file.
 """
 import json, os, sys
 from datetime import datetime, timezone
+import socketserver
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse, parse_qs
 
@@ -14,6 +15,13 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, 'mock_data.json')
 KEY = 'dev'
 PORT = int(os.environ.get('PORT', '8787'))
+
+
+class FastBind(HTTPServer):
+    """HTTPServer.server_bind does a reverse-DNS lookup that can hang for a minute; skip it."""
+    def server_bind(self):
+        socketserver.TCPServer.server_bind(self)
+        self.server_name, self.server_port = self.server_address[0], self.server_address[1]
 
 
 def load():
@@ -76,4 +84,4 @@ class H(BaseHTTPRequestHandler):
 
 if __name__ == '__main__':
     print(f'mock apps-script on http://localhost:{PORT}  (results key: {KEY})')
-    HTTPServer(('127.0.0.1', PORT), H).serve_forever()
+    FastBind(('127.0.0.1', PORT), H).serve_forever()
